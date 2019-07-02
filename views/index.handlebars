@@ -1,29 +1,51 @@
-<h1>burgers To Watch</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-5">
+            <h1>burgers to eat</h1>
 
-<ul>
-  {{#each burgers}}
-    <li>
-      <p>
-        {{this.id}}. {{this.burger_name}}
+            <ul>
+            {{#each burgers}}
+                {{#unless devoured}}
+                    <p>
+                        {{this.id}}. {{this.burger_name}}
 
-        <button data-burgerid="{{this.id}}" class="delburger">Delete</button>
-      </p>
-    </li>
-  {{/each}}
-</ul>
+                        <button class="devourBurger" data-id="{{this.id}}">Devour!</button>
 
-<h2>Add a burger to Watch</h2>
-<form id="addburger" class="button-size">
-	<textarea type="text" name="burger"></textarea>
-	<button type="submit">Save burger!</button>
-</form>
+                        <button data-burgerid="{{this.id}}" class="delburger">Delete</button>
+                    </p>    
+                {{/unless}}
+            {{/each}}
+            </ul>
+        </div>
 
-<h2>Update a burger</h2>
-<form id="updateburger" class="button-size">
-  <input type="text" name="id" placeholder="id">
-	<textarea type="text" name="burger" placeholder="what do you want to update this burger title to?"></textarea>
-	<button type="submit">Update burger!</button>
-</form>
+        <img src="../../public/assets/img/burger.jpg">
+
+        <div class="col-5">
+            <h1>devoured burgers</h1>
+
+            <ul>
+            {{#each burgers}}
+                {{#if devoured}}
+                    <p>
+                        {{this.id}}. {{this.burger_name}}
+                        <button class="menuBurger" data-id="{{this.id}}">Put back on menu!</button>
+
+                        <button data-burgerid="{{this.id}}" class="delburger">Delete</button>
+                    </p>
+                {{/if}}
+            {{/each}}
+            </ul>
+        </div>
+    </div>
+
+
+    <h2>Add a burger to eat</h2>
+    <form id="addburger" class="button-size">
+        <textarea type="text" name="burger"></textarea>
+        <button type="submit">Save burger!</button>
+    </form>
+
+</div>
 
 <script type="text/javascript">
   $(".delburger").on("click", function(event) {
@@ -46,7 +68,7 @@
     event.preventDefault();
 
     var newburger = {
-      burger: $("#addburger [name=burger]").val().trim()
+      burger_name: $("#addburger [name=burger]").val().trim()
     };
 
     // Send the POST request.
@@ -62,14 +84,39 @@
     );
   });
 
-  $("#updateburger").on("submit", function(event) {
+  $(".devourBurger").on("click", function(event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
-    var id = $("[name=id]").val().trim();
+    console.log("work");
+
+    var id = $(this).data("id");
 
     var updatedburger = {
-      burger: $("#updateburger [name=burger]").val().trim()
+      devoured: true
+    };
+
+    // Send the PUT request.
+    $.ajax("/api/burgers/" + id, {
+      type: "PUT",
+      data: updatedburger
+    }).then(
+      function() {
+        console.log("updated id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+
+  $(".menuBurger").on("click", function(event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    var id = $(this).data("id");
+
+    var updatedburger = {
+      devoured: false
     };
 
     // Send the PUT request.

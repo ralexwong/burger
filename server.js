@@ -3,7 +3,12 @@
 var express = require("express");
 var path = require("path");
 var exphbs = require("express-handlebars");
-var bodyParser = require("body-parser")
+var bodyParser = require("body-parser");
+var mysql = require('mysql');
+
+
+// Import MySQL connection.
+var connection = require("./config/connection.js");
 
 
 // Sets up the Express App
@@ -35,6 +40,32 @@ app.set("view engine", "handlebars");
 var routes = require("./controllers/burgers_controller.js");
 
 app.use(routes);
+
+app.get("/api/burgers", function(req, res) {
+  connection.query("SELECT * FROM burgers;", function(err, data) {
+    if (err) {
+      return res.status(500).end();
+    }
+
+    res.json(data);
+  });
+});
+
+// Delete a movie
+app.delete("/api/burgers/:id", function(req, res) {
+  connection.query("DELETE FROM burgers WHERE id = ?", [req.params.id], function(err, result) {
+    if (err) {
+      // If an error occurred, send a generic server failure
+      return res.status(500).end();
+    }
+    else if (result.affectedRows === 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    }
+    res.status(200).end();
+
+  });
+});
 
 
 // Starts the server to begin listening
