@@ -20,6 +20,7 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// START PLACE FOR STATIC FILES (E.G. CSS AND IMAGES)
 app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({
