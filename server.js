@@ -1,11 +1,13 @@
 // Dependencies
 // =============================================================
+//require('dotenv')();
 var express = require("express");
 var path = require("path");
 var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var mysql = require('mysql');
 var Sequelize = require('sequelize');
+
 
 // Import MySQL connection.
 var connection = require("./config/connection.js");
