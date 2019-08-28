@@ -44,6 +44,10 @@ var routes = require("./controllers/burgers_controller.js");
 
 app.use(routes);
 
+// app.get("/", function(req, res) {
+//   res.json(path.join(__dirname, "views/index.handlebars"));
+// });
+
 app.get("/api/burgers", function(req, res) {
   connection.query("SELECT * FROM burgers;", function(err, data) {
     if (err) {
