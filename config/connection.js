@@ -10,7 +10,7 @@ var connection = function() {
       port: 3306,
       user: "root",
       password: "poop",
-      database: "rsigjqdffj80rfeo"
+      database: "burgers_db"
     });
   }
 }
