@@ -1,61 +1,71 @@
 <div class="container">
-    <div class="row">
-        <div class="col-5">
-            <h1>burgers to eat</h1>
+  <div>
+    <img src="assets/img/burger.jpg">
+  </div>
 
-            <ul>
-            {{#each burgers}}
-                {{#unless devoured}}
-                    <p>
-                        {{this.id}}. {{this.burger_name}}
+  <h1>
+    Eat-A-Burger!
+  </h1>
 
-                        <button class="devourBurger" data-id="{{this.id}}">Devour!</button>
+  <div class="row">
+    <div class="col">
+      <h2>Burgers to Eat</h2>
 
-                        <button data-burgerid="{{this.id}}" class="delburger">Delete</button>
-                    </p>    
-                {{/unless}}
-            {{/each}}
-            </ul>
-        </div>
+      <ul>
+        {{#each burgers}}
+          {{#unless devoured}}
+            <li class="burgersToEat">
+              {{this.burger_name}}
 
-        <img src="assets/img/burger.jpg">
+              <button class="devourBurger btn btn-success" data-id="{{this.id}}">Devour!</button>
 
-        <div class="col-5">
-            <h1>devoured burgers</h1>
+              <button data-burgerid="{{this.id}}" class="delburger btn btn-success">Delete</button>
+            </li>
+          {{/unless}}
+        {{/each}}
+      </ul>
 
-            <ul>
-            {{#each burgers}}
-                {{#if devoured}}
-                    <p>
-                        {{this.id}}. {{this.burger_name}}
-                        <button class="menuBurger" data-id="{{this.id}}">Put back on menu!</button>
-
-                        <button data-burgerid="{{this.id}}" class="delburger">Delete</button>
-                    </p>
-                {{/if}}
-            {{/each}}
-            </ul>
-        </div>
     </div>
 
+    <div class="col">
+      <h2>Devoured Burgers</h2>
 
-    <h2>Add a burger to eat</h2>
-    <form id="addburger" class="button-size">
-        <textarea type="text" name="burger"></textarea>
-        <button type="submit">Save burger!</button>
-    </form>
+      <ul>
+        {{#each burgers}}
+          {{#if devoured}}
+            <li class="devouredBurgers">
+              {{this.burger_name}}
+
+              <button class="menuBurger btn-info" data-id="{{this.id}}">Order it again!</button>
+
+              <button data-burgerid="{{this.id}}" class="delburger btn-info">Delete</button>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+
+  <h2 style="margin-top: 50px;">Add a burger to eat</h2>
+  <form id="addburger" class="button-size">
+    <textarea type="text" name="burger"></textarea>
+  </form>
+
+  <button class="btn btn-warning" id="submit" type="submit">Save burger!</button>
+
 
 </div>
 
 <script type="text/javascript">
-  $(".delburger").on("click", function(event) {
+  $(".delburger").on("click", function (event) {
     var id = $(this).data("burgerid");
 
     // Send the DELETE request.
     $.ajax("/api/burgers/" + id, {
       type: "DELETE"
     }).then(
-      function() {
+      function () {
         console.log("deleted id ", id);
         // Reload the page to get the updated list
         location.reload();
@@ -63,7 +73,7 @@
     );
   });
 
-  $("#addburger").on("submit", function(event) {
+  $("#addburger").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
@@ -76,7 +86,7 @@
       type: "POST",
       data: newburger
     }).then(
-      function() {
+      function () {
         console.log("added new burger");
         // Reload the page to get the updated list
         location.reload();
@@ -84,7 +94,7 @@
     );
   });
 
-  $(".devourBurger").on("click", function(event) {
+  $(".devourBurger").on("click", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
@@ -101,7 +111,7 @@
       type: "PUT",
       data: updatedburger
     }).then(
-      function() {
+      function () {
         console.log("updated id ", id);
         // Reload the page to get the updated list
         location.reload();
@@ -109,7 +119,7 @@
     );
   });
 
-  $(".menuBurger").on("click", function(event) {
+  $(".menuBurger").on("click", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
@@ -124,7 +134,7 @@
       type: "PUT",
       data: updatedburger
     }).then(
-      function() {
+      function () {
         console.log("updated id ", id);
         // Reload the page to get the updated list
         location.reload();
