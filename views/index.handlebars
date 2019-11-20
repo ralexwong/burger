@@ -36,9 +36,9 @@
             <li class="devouredBurgers">
               {{this.burger_name}}
 
-              <button class="menuBurger btn-info" data-id="{{this.id}}">Order it again!</button>
+              <button class="menuBurger btn btn-danger" data-id="{{this.id}}">Order it again!</button>
 
-              <button data-burgerid="{{this.id}}" class="delburger btn-info">Delete</button>
+              <button data-burgerid="{{this.id}}" class="delburger btn btn-danger">Delete</button>
             </li>
           {{/if}}
         {{/each}}
@@ -50,10 +50,8 @@
   <h2 style="margin-top: 50px;">Add a burger to eat</h2>
   <form id="addburger" class="button-size">
     <textarea type="text" name="burger"></textarea>
+    <button class="btn btn-warning" id="submit" type="submit">Save burger!</button>
   </form>
-
-  <button class="btn btn-warning" id="submit" type="submit">Save burger!</button>
-
 
 </div>
 
